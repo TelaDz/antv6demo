@@ -6,6 +6,7 @@ import './test.css'
 import { message, Form, Input, Select, Modal, InputNumber, Button } from 'antd'
 import SwitchNode from './SwitchNode'
 import RouterNode from './RouterNode'
+import { values } from 'lodash'
 const UNIQ_GRAPH_ID = 'UNIQ_GRAPH_ID'
 
 Graph.registerNode(
@@ -25,258 +26,232 @@ Graph.registerNode(
 	},
 	true,
 )
+Graph.registerConnector(
+	'multi-smooth',
+	(sourcePoint, targetPoint, routePoints, options) => {
+		const { index = 0, total } = options
+		const line = new Line(sourcePoint, targetPoint)
+		const factor = (-1) ** index
+		const jo = index % 2 === 0
+		let num = 0
+		if (jo) {
+			num = index / 2
+		} else {
+			num = ((index + 1) * factor) / 2
+		}
+		const vertice = line
+			.pointAtLength(line.length() / 2 + 16 * num)
+			.rotate(90, line.getCenter())
+		const points = [sourcePoint, vertice, targetPoint]
+		const curves = Curve.throughPoints(points)
+		const path = new Path(curves)
+		return options.raw ? path : path.serialize()
+	},
+	true,
+)
 
-Graph.registerEdge(
-	'left',
+Graph.registerNode(
+	'switch-node',
 	{
-		inherit: 'edge',
+		inherit: 'react-shape',
+		width: 50,
+		height: 50,
+		component: <SwitchNode />,
 		attrs: {
-			line: {
-				refX2: -10,
-				refY2: 10,
-			},
+			showLabel: false,
 		},
 	},
 	true,
 )
-Graph.registerEdge(
-	'left2',
-	{
-		inherit: 'edge',
-		attrs: {
-			line: {
-				refX2: -20,
-				refY2: 20,
-			},
-		},
-	},
-	true,
-)
-Graph.registerEdge(
-	'right',
-	{
-		inherit: 'edge',
-		attrs: {
-			line: {
-				refX2: 10,
-				refY2: 10,
-			},
-		},
-	},
-	true,
-)
-Graph.registerEdge(
-	'right2',
-	{
-		inherit: 'edge',
-		attrs: {
-			line: {
-				refX2: 20,
-				refY2: 20,
-			},
-		},
-	},
-	true,
-)
+
 const nodeData = [
 	{
 		id: '0',
-		eqName: 'eqName1',
+		eqName: '路由器0',
 		eqOrgId: 'eqOrgId',
 		eqPortTypeNum: ['eqPortTypeNum'],
-		eqTypeCode: 'eqTypeCode',
+		eqTypeCode: 'router-node',
 		eqTypeId: 'eqTypeId',
 		eqTypeName: 'eqTypeName',
 		errNode: false,
 		eqIp: '192.168.1.0',
-		x: 50,
-		y: 50,
-		in: [],
-		out: ['192.168.1.2', '192.168.1.3'],
-		upEq: [
-			{
-				id: '1',
-				eqName: 'eqName2',
-				eqOrgId: 'eqOrgId',
-				eqPortTypeNum: ['eqPortTypeNum'],
-				eqTypeCode: 'eqTypeCode',
-				eqTypeId: 'eqTypeId',
-				eqName: 'eqName',
-				errNode: false,
-				eqIp: '192.168.1.0',
-			},
-		],
-		downEq: [
-			{
-				id: '2',
-				eqName: 'eqName3',
-				eqOrgId: 'eqOrgId',
-				eqPortTypeNum: ['eqPortTypeNum'],
-				eqTypeCode: 'eqTypeCode',
-				eqTypeId: 'eqTypeId',
-				eqName: 'eqName',
-				errNode: false,
-				eqIp: '192.168.1.0',
-			},
-		],
+		x: 0,
+		y: 0.5,
+	},
+	{
+		id: '1',
+		eqName: '路由器1',
+		eqOrgId: 'eqOrgId',
+		eqPortTypeNum: ['eqPortTypeNum'],
+		eqTypeCode: 'router-node',
+		eqTypeId: 'eqTypeId',
+		eqTypeName: 'eqTypeName',
+		errNode: false,
+		eqIp: '192.168.1.1',
+		x: 1,
+		y: 0.5,
 	},
 	{
 		id: '2',
-		eqName: 'eqName2',
+		eqName: '路由器2',
 		eqOrgId: 'eqOrgId',
 		eqPortTypeNum: ['eqPortTypeNum'],
-		eqTypeCode: 'eqTypeCode',
+		eqTypeCode: 'router-node',
 		eqTypeId: 'eqTypeId',
 		eqTypeName: 'eqTypeName',
 		errNode: false,
 		eqIp: '192.168.1.2',
-		x: 50,
-		y: 200,
-		in: ['192.168.1.0'],
-		out: [],
-		upEq: [],
-		downEq: [],
+		x: 2,
+		y: 0.5,
 	},
 	{
 		id: '3',
-		eqName: 'eqName3',
+		eqName: '路由器3',
 		eqOrgId: 'eqOrgId',
 		eqPortTypeNum: ['eqPortTypeNum'],
-		eqTypeCode: 'eqTypeCode',
+		eqTypeCode: 'router-node',
 		eqTypeId: 'eqTypeId',
 		eqTypeName: 'eqTypeName',
 		errNode: false,
-		eqIp: '192.168.1.3',
-		x: 150,
-		y: 200,
-		in: ['192.168.1.0'],
-		out: ['192.168.1.4'],
-		upEq: [],
-		downEq: [],
+		eqIp: '192.168.1.2',
+		x: 3,
+		y: 0.5,
 	},
 	{
 		id: '4',
-		eqName: 'eqName4',
+		eqName: '路由器4',
 		eqOrgId: 'eqOrgId',
 		eqPortTypeNum: ['eqPortTypeNum'],
-		eqTypeCode: 'eqTypeCode',
+		eqTypeCode: 'router-node',
 		eqTypeId: 'eqTypeId',
 		eqTypeName: 'eqTypeName',
 		errNode: false,
-		eqIp: '192.168.1.4',
-		x: 150,
-		y: 350,
-		in: ['192.168.1.3'],
-		out: [],
-		upEq: [],
-		downEq: [],
+		eqIp: '192.168.1.2',
+		x: 4,
+		y: 0.5,
 	},
+	// {
+	// 	id: '3',
+	// 	eqName: '交换机1',
+	// 	eqOrgId: 'eqOrgId',
+	// 	eqPortTypeNum: ['eqPortTypeNum'],
+	// 	eqTypeCode: 'switch-node',
+	// 	eqTypeId: 'eqTypeId',
+	// 	eqTypeName: 'eqTypeName',
+	// 	errNode: false,
+	// 	eqIp: '192.168.1.3',
+	// 	x: 1.5,
+	// 	y: 2,
+	// },
+	// {
+	// 	id: '4',
+	// 	eqName: '交换机2',
+	// 	eqOrgId: 'eqOrgId',
+	// 	eqPortTypeNum: ['eqPortTypeNum'],
+	// 	eqTypeCode: 'switch-node',
+	// 	eqTypeId: 'eqTypeId',
+	// 	eqTypeName: 'eqTypeName',
+	// 	errNode: false,
+	// 	eqIp: '192.168.1.4',
+	// 	x: 1.5,
+	// 	y: 3.5,
+	// },
 ]
 
-const edgeList = () => {
-	const data = []
-	nodeData.map((item) => {
-		if (item.out.length) {
-			item.out.forEach((i) => {
-				const targetId = data.push({
-					source: item.eqIp,
-					target: i,
-					shape: 'dag-edge',
-				})
-			})
-		}
-	})
-	return data
-}
-const ddd = [
-	{
-		source: '192.168.1.0',
-		target: '192.168.1.2',
-		shape: 'dag-edge',
-	},
-	{
-		source: '192.168.1.2',
-		target: '192.168.1.0',
-		shape: 'down',
-	},
-	{
-		source: '192.168.1.0',
-		target: '192.168.1.2',
-		shape: 'left',
-	},
-	{
-		source: '192.168.1.0',
-		target: '192.168.1.2',
-		shape: 'right',
-	},
-	{
-		source: '192.168.1.2',
-		target: '192.168.1.0',
-		shape: 'dag-edge',
-	},
-	{
-		source: '192.168.1.0',
-		target: '192.168.1.3',
-		shape: 'dag-edge',
-	},
-	{
-		source: '192.168.1.3',
-		target: '192.168.1.4',
-		shape: 'dag-edge',
-	},
-]
 const dddid = [
 	{
 		source: '0',
-		target: '2',
-		shape: 'dag-edge',
-	},
-	{
-		source: '2',
-		target: '0',
-		shape: 'down',
+		target: '1',
+		index: 0,
+		err: true,
 	},
 	{
 		source: '0',
 		target: '2',
-		shape: 'left',
-	},
-	{
-		source: '0',
-		target: '2',
-		shape: 'right',
-	},
-	{
-		source: '2',
-		target: '0',
-		shape: 'dag-edge',
+		index: 0,
+		err: true,
 	},
 	{
 		source: '0',
 		target: '3',
-		shape: 'dag-edge',
+		index: 0,
+		err: true,
+	},
+	{
+		source: '0',
+		target: '4',
+		index: 0,
+		err: true,
+	},
+	{
+		source: '2',
+		target: '4',
+		index: 0,
+		err: true,
 	},
 	{
 		source: '3',
 		target: '4',
-		shape: 'dag-edge',
+		index: 0,
+		err: true,
 	},
+
+	// {
+	// 	source: '0',
+	// 	target: '2',
+	// 	index: 0,
+	// 	err: true,
+	// },
+	// {
+	// 	source: '0',
+	// 	target: '2',
+	// 	index: 1,
+	// },
+	// {
+	// 	source: '0',
+	// 	target: '2',
+	// 	index: 2,
+	// },
+	// {
+	// 	source: '0',
+	// 	target: '2',
+	// 	index: 3,
+	// },
+	// {
+	// 	source: '0',
+	// 	target: '2',
+	// 	index: 4,
+	// },
+	// {
+	// 	source: '0',
+	// 	target: '2',
+	// 	index: 5,
+	// },
+	// {
+	// 	source: '0',
+	// 	target: '2',
+	// 	index: 6,
+	// },
 ]
 export default function Test(props) {
 	const [form] = Form.useForm()
 	const [formNodeEdge] = Form.useForm()
+	const [formNode] = Form.useForm()
 	const [Portal, setGraph] = usePortal(UNIQ_GRAPH_ID)
 	const [graph, setGraphState] = useState()
 	const [showForm, setShowForm] = useState(false)
 	const [showFormEdge, setShowFormEdge] = useState(false)
+	const [showFormNode, setShowFormNode] = useState(false)
 	const [nodeList, setNodeList] = useState([])
 	const [nodeListOther, setNodeListOther] = useState([])
 	const [edgeList, setEdgeList] = useState([])
+	const [edit, setEdit] = useState(false)
+	const [editNodeCell, setEditNodeCell] = useState()
+
 	const container = useRef()
 	useEffect(() => {
 		const graph = new Graph({
 			container: container.current,
-			// grid: true,
 			grid: {
 				size: 50,
 				visible: true,
@@ -295,11 +270,11 @@ export default function Test(props) {
 		const cells = []
 		nodeData.forEach((item) => {
 			const cell = graph.addNode({
-				x: item.x,
-				y: item.y,
+				x: item.x * 100,
+				y: item.y * 100,
 				width: 50,
 				height: 50,
-				shape: 'router-node',
+				shape: item.eqTypeCode,
 				data: item,
 				id: item.id,
 			})
@@ -309,6 +284,23 @@ export default function Test(props) {
 			cell.addTools([
 				{
 					name: 'button-remove',
+					args: {
+						onClick({ view }) {
+							console.log(view)
+							const node = view.cell
+							Modal.confirm({
+								title: '确定删除此节点？',
+								onOk() {
+									node.remove()
+								},
+								onCancel() {
+									console.log('Cancel')
+								},
+								okText: '确定',
+								cancelText: '取消',
+							})
+						},
+					},
 				},
 			])
 		})
@@ -317,71 +309,72 @@ export default function Test(props) {
 				cell.removeTool('button-remove')
 			}
 		})
-		graph.on('node:click', ({ cell }) => {
-			console.log('click', cell)
-			cell.setAttrs({
-				showLabel: !cell.attrs.showLabel,
-			})
-			message.success('node:click')
-		})
-		graph.on('node:contextmenu', ({ cell }) => {
-			console.log('contextmenuc', cell.data)
-			message.success('node:contextmenu')
-		})
-		graph.on('edge:click', ({ cell }) => {
-			console.log('click', cell)
-			cell.setAttrs({
-				showLabel: !cell.attrs.showLabel,
-			})
-			message.success('edge:click')
-		})
-		graph.on('edge:contextmenu', ({ cell }) => {
-			console.log('contextmenuc', cell)
-			message.success('edge:contextmenu')
-		})
-		dddid.forEach((i) => {
-			if (i.shape === 'dag-edge') {
-				graph.addEdge({
-					source: i.source,
-					target: i.target,
-				})
-			} else if (i.shape === 'left') {
-				graph.addEdge({
-					source: i.source,
-					target: i.target,
-					attrs: {
-						line: {
-							stroke: '#722ed1',
-							refX2: -10,
-							refY2: 0,
+		graph.on('edge:mouseenter', ({ cell }) => {
+			console.log(cell)
+			cell.addTools([
+				{
+					name: 'button-remove',
+					args: {
+						onClick({ view }) {
+							console.log(view)
+							const edge = view.cell
+							Modal.confirm({
+								title: '确定删除这条连线？',
+								onOk() {
+									edge.remove()
+								},
+								onCancel() {
+									console.log('Cancel')
+								},
+								okText: '确定',
+								cancelText: '取消',
+							})
 						},
 					},
-				})
-			} else if (i.shape === 'right') {
-				graph.addEdge({
-					source: i.source,
-					target: i.target,
-					attrs: {
-						line: {
-							stroke: 'yellow',
-							refX2: 10,
-							refY2: 0,
-						},
-					},
-				})
-			} else if (i.shape === 'down') {
-				graph.addEdge({
-					source: i.source,
-					target: i.target,
-					attrs: {
-						line: {
-							stroke: 'red',
-							refX2: 20,
-							refY2: 0,
-						},
-					},
-				})
+				},
+			])
+		})
+		graph.on('edge:mouseleave', ({ cell }) => {
+			if (cell.hasTool('button-remove')) {
+				cell.removeTool('button-remove')
 			}
+		})
+		graph.on('node:click', ({ cell, node }) => {
+			console.log('click', node.data)
+			setShowFormNode(true)
+			setEditNodeCell(node)
+			formNode.setFieldsValue({
+				eqTypeCode: node.data.eqTypeCode,
+				eqIp: node.data.eqIp,
+				eqName: node.data.eqName,
+				x: node.data.x,
+				y: node.data.y,
+				id: node.data.id,
+			})
+		})
+		graph.on('edge:click', ({ cell }) => {})
+
+		dddid.forEach((i) => {
+			graph.addEdge({
+				source: i.source,
+				target: i.target,
+				// connector: {
+				// 	name: 'multi-smooth',
+				// 	args: {
+				// 		index: i.index,
+				// 	},
+				// },
+				// labels: [i.source],
+				attrs: {
+					line: {
+						stroke: i.err ? 'red' : '#7c68fc', // 指定 path 元素的填充色
+						targetMarker: null,
+					},
+				},
+				router: {
+					name: 'metro',
+				  },
+			})
 		})
 		setGraph(graph)
 		setGraphState(graph)
@@ -399,27 +392,17 @@ export default function Test(props) {
 			DataUri.downloadDataUri(dataUri, 'chart.png')
 		})
 	}
-	function handleShowLabel() {
-		console.log('graph', graph)
-		// const cells = graph.getCells()
-		// cells.on('node:click', ({ cell }) => {
-		// 	console.log(1);
-		// 	// console.log('click', cell)
-		// 	// cell.setAttrs({
-		// 	// 	showLabel: !cell.attrs.showLabel,
-		// 	// })
-		// 	// message.success('node:click')
-		// })
-	}
+
 	const addNode = () => {
-		showFormFn()
+		setShowForm(true)
 	}
-	const showFormFn = () => {
-		setShowForm(!showForm)
+	const showModalCanCel = () => {
+		setShowForm(false)
+		setShowFormEdge(false)
+		setShowFormNode(false)
+		setEditNodeCell()
 	}
-	const showFormEdgeFn = () => {
-		setShowFormEdge(!showFormEdge)
-	}
+
 	const onFinish = (values) => {
 		console.log(values)
 		if (values) {
@@ -429,7 +412,7 @@ export default function Test(props) {
 				y: values.y * 100,
 				width: 50,
 				height: 50,
-				shape: 'router-node',
+				shape: values.eqTypeCode,
 				data: {
 					...values,
 					id,
@@ -437,7 +420,7 @@ export default function Test(props) {
 				id,
 			})
 		}
-		showFormFn()
+		showModalCanCel()
 	}
 	const onFinishEdge = (values) => {
 		const edges = graph.getEdges()
@@ -449,44 +432,54 @@ export default function Test(props) {
 		const comEdge = edgesMap.filter(
 			(item) => item.source === values.ip1 && item.target === values.ip2,
 		)
+
 		graph.addEdge({
 			source: values.ip1,
 			target: values.ip2,
+			connector: {
+				name: 'multi-smooth',
+			},
+			labels: [values.ip1],
+			attrs: {
+				line: {
+					stroke: '#7c68fc', // 指定 path 元素的填充色
+					targetMarker: null,
+				},
+			},
 		})
-		// if (comEdge.length > 0 && comEdge.length < 4) {
-		// 	comEdge.forEach((item) => {
-		// 		console.log(item);
-		// 		if (item.shape === 'edge') {
-		// 			graph.addEdge({
-		// 				source: values.ip1,
-		// 				target: values.ip2,
-		// 				shape: 'left',
-		// 			})
-		// 		} else if (item.shape === 'left') {
-		// 			graph.addEdge({
-		// 				source: values.ip1,
-		// 				target: values.ip2,
-		// 				shape: 'right',
-		// 			})
-		// 		} else if (item.shape === 'right') {
-		// 			graph.addEdge({
-		// 				source: values.ip1,
-		// 				target: values.ip2,
-		// 				shape: 'left2',
-		// 			})
-		// 		} else if (item.shape === 'left2') {
-		// 			graph.addEdge({
-		// 				source: values.ip1,
-		// 				target: values.ip2,
-		// 				shape: 'right2',
-		// 			})
-		// 		} else {
-		// 		}
-		// 	})
-		// }
-		console.log(comEdge)
-		showFormEdgeFn()
+		showModalCanCel()
 	}
+	const onFinishNode = () => {
+		const values = formNode.getFieldsValue(true)
+		console.log(editNodeCell)
+		if (
+			editNodeCell.data.eqName === values.eqName &&
+			editNodeCell.data.eqIp === values.eqIp &&
+			editNodeCell.data.eqTypeCode === values.eqTypeCode
+		) {
+			showModalCanCel()
+		} else {
+			const data = {
+				x: editNodeCell.position().x,
+				y: editNodeCell.position().y,
+				width: 50,
+				height: 50,
+				shape: values.eqTypeCode,
+				data: {
+					...editNodeCell.data,
+					eqName: values.eqName,
+					eqIp: values.eqIp,
+					eqTypeCode: values.eqTypeCode,
+				},
+				id: editNodeCell.id,
+			}
+			editNodeCell.remove()
+			console.log(data)
+			const cell = graph.addNode(data)
+			showModalCanCel()
+		}
+	}
+
 	const addDataEdge = () => {
 		const nodes = graph.getNodes()
 		const nodesMap = nodes.map((item) => ({
@@ -494,7 +487,7 @@ export default function Test(props) {
 			label: item.data.eqName,
 		}))
 		setNodeList(nodesMap)
-		showFormEdgeFn()
+		setShowFormEdge(true)
 	}
 	const onChangeNodes = (value) => {
 		console.log(value)
@@ -515,17 +508,29 @@ export default function Test(props) {
 			<div>
 				<button onClick={handleDownLoad}>导出数据</button>
 				<button onClick={handlePNG}>导出PNG</button>
-				<button onClick={handleShowLabel}>展示其他数据</button>
+				{/* <button onClick={handleShowLabel}>展示其他数据</button> */}
 				<button onClick={addNode}>添加节点</button>
 				<button onClick={addDataEdge}>添加连线</button>
 			</div>
 
-			<Modal visible={showForm} onCancel={showFormFn} footer={null}>
-				<Form {...formItemLayout} onFinish={onFinish} preserve={false}>
-					<Form.Item name='eqName' label='eqName' rules={[{ required: true }]}>
+			<Modal
+				title='添加新设备节点'
+				visible={showForm}
+				onCancel={showModalCanCel}
+				destroyOnClose
+				footer={null}>
+				<Form
+					{...formItemLayout}
+					form={form}
+					onFinish={onFinish}
+					preserve={false}>
+					<Form.Item
+						name='eqName'
+						label='设备名称'
+						rules={[{ required: true }]}>
 						<Input />
 					</Form.Item>
-					<Form.Item name='eqIp' label='eqIp' rules={[{ required: true }]}>
+					<Form.Item name='eqIp' label='设备IP' rules={[{ required: true }]}>
 						<Input />
 					</Form.Item>
 					<Form.Item
@@ -540,17 +545,17 @@ export default function Test(props) {
 						rules={[{ required: true, pattern: /[0-9]/ }]}>
 						<InputNumber style={{ width: '100%' }} />
 					</Form.Item>
-
 					<Form.Item
-						name='eqType'
-						label='eqType'
+						name='eqTypeCode'
+						label='设备类型'
 						hasFeedback
-						rules={[
-							{ required: true, message: 'Please select your country!' },
-						]}>
-						<Select placeholder='Please select a country'>
-							<Select.Option value='router-node'>router-node</Select.Option>
-						</Select>
+						rules={[{ required: true, message: '选择设备类型' }]}>
+						<Select
+							placeholder='选择设备类型'
+							options={[
+								{ value: 'router-node', label: '路由器' },
+								{ value: 'switch-node', label: '交换机' },
+							]}></Select>
 					</Form.Item>
 					<Form.Item>
 						<Button htmlType='submit' type='primary'>
@@ -559,7 +564,12 @@ export default function Test(props) {
 					</Form.Item>
 				</Form>
 			</Modal>
-			<Modal visible={showFormEdge} onCancel={showFormEdgeFn} footer={null}>
+			<Modal
+				visible={showFormEdge}
+				title='添加连线'
+				onCancel={showModalCanCel}
+				destroyOnClose
+				footer={null}>
 				<Form
 					form={formNodeEdge}
 					{...formItemLayout}
@@ -587,6 +597,45 @@ export default function Test(props) {
 						<Select
 							options={nodeListOther}
 							placeholder='Please select a country'></Select>
+					</Form.Item>
+					<Form.Item>
+						<Button htmlType='submit' type='primary'>
+							提交
+						</Button>
+					</Form.Item>
+				</Form>
+			</Modal>
+			<Modal
+				title='替换节点设备'
+				visible={showFormNode}
+				onCancel={showModalCanCel}
+				destroyOnClose
+				footer={null}>
+				<Form
+					form={formNode}
+					{...formItemLayout}
+					onFinish={onFinishNode}
+					preserve={false}>
+					<Form.Item
+						name='eqName'
+						label='设备名称'
+						rules={[{ required: true }]}>
+						<Input />
+					</Form.Item>
+					<Form.Item name='eqIp' label='设备IP' rules={[{ required: true }]}>
+						<Input />
+					</Form.Item>
+					<Form.Item
+						name='eqTypeCode'
+						label='设备类型'
+						hasFeedback
+						rules={[{ required: true, message: '选择设备类型' }]}>
+						<Select
+							placeholder='选择设备类型'
+							options={[
+								{ value: 'router-node', label: '路由器' },
+								{ value: 'switch-node', label: '交换机' },
+							]}></Select>
 					</Form.Item>
 					<Form.Item>
 						<Button htmlType='submit' type='primary'>
