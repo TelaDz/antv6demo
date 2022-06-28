@@ -69,72 +69,144 @@ const nodeData = [
 		id: '0',
 		eqName: '路由器0',
 		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: ['eqPortTypeNum'],
+		eqPortTypeNum: [
+			'eqPortTypeNum/0/0/0',
+			'eqPortTypeNum/0/0/1',
+			'eqPortTypeNum/0/0/2',
+		],
 		eqTypeCode: 'router-node',
 		eqTypeId: 'eqTypeId',
 		eqTypeName: 'eqTypeName',
 		errNode: false,
 		eqIp: '192.168.1.0',
-		x: 0,
-		y: 0.5,
+		x: 1,
+		y: 0,
 	},
 	{
 		id: '1',
 		eqName: '路由器1',
 		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: ['eqPortTypeNum'],
+		eqPortTypeNum: [
+			'eqPortTypeNum/0/1/0',
+			'eqPortTypeNum/0/1/1',
+			'eqPortTypeNum/0/1/2',
+		],
 		eqTypeCode: 'router-node',
 		eqTypeId: 'eqTypeId',
 		eqTypeName: 'eqTypeName',
 		errNode: false,
 		eqIp: '192.168.1.1',
-		x: 1,
-		y: 0.5,
+		x: 2,
+		y: 0,
 	},
 	{
 		id: '2',
 		eqName: '路由器2',
 		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: ['eqPortTypeNum'],
+		eqPortTypeNum: [
+			'eqPortTypeNum/0/2/0',
+			'eqPortTypeNum/0/2/1',
+			'eqPortTypeNum/0/2/2',
+		],
+		eqTypeCode: 'router-node',
+		eqTypeId: 'eqTypeId',
+		eqTypeName: 'eqTypeName',
+		errNode: false,
+		eqIp: '192.168.1.2',
+		x: 1,
+		y: 1,
+	},
+	{
+		id: '3',
+		eqName: '路由器3',
+		eqOrgId: 'eqOrgId',
+		eqPortTypeNum: [
+			'eqPortTypeNum/3/1/0',
+			'eqPortTypeNum/3/1/1',
+			'eqPortTypeNum/3/1/2',
+		],
 		eqTypeCode: 'router-node',
 		eqTypeId: 'eqTypeId',
 		eqTypeName: 'eqTypeName',
 		errNode: false,
 		eqIp: '192.168.1.2',
 		x: 2,
-		y: 0.5,
+		y: 1,
 	},
 	{
-		id: '3',
-		eqName: '路由器3',
+		id: '4',
+		eqName: '交换机1',
 		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: ['eqPortTypeNum'],
+		eqPortTypeNum: [
+			'eqPortTypeNum/4/1/0',
+			'eqPortTypeNum/4/1/1',
+			'eqPortTypeNum/4/1/2',
+		],
+		eqTypeCode: 'router-node',
+		eqTypeId: 'eqTypeId',
+		eqTypeName: 'eqTypeName',
+		errNode: false,
+		eqIp: '192.168.1.2',
+		x: 1,
+		y: 2,
+	},
+	{
+		id: '5',
+		eqName: '交换机2',
+		eqOrgId: 'eqOrgId',
+		eqPortTypeNum: [
+			'eqPortTypeNum/5/1/0',
+			'eqPortTypeNum/5/1/1',
+			'eqPortTypeNum/5/1/2',
+		],
+		eqTypeCode: 'router-node',
+		eqTypeId: 'eqTypeId',
+		eqTypeName: 'eqTypeName',
+		errNode: false,
+		eqIp: '192.168.1.2',
+		x: 2,
+		y: 2,
+	},
+	{
+		id: '6',
+		eqName: '防火墙1',
+		eqOrgId: 'eqOrgId',
+		eqPortTypeNum: [
+			'eqPortTypeNum/6/1/0',
+			'eqPortTypeNum/6/1/1',
+			'eqPortTypeNum/6/1/2',
+		],
+		eqTypeCode: 'router-node',
+		eqTypeId: 'eqTypeId',
+		eqTypeName: 'eqTypeName',
+		errNode: false,
+		eqIp: '192.168.1.2',
+		x: 0,
+		y: 2,
+	},
+	{
+		id: '7',
+		eqName: '防火墙2',
+		eqOrgId: 'eqOrgId',
+		eqPortTypeNum: [
+			'eqPortTypeNum/0/7/0',
+			'eqPortTypeNum/0/7/1',
+			'eqPortTypeNum/0/7/2',
+		],
 		eqTypeCode: 'router-node',
 		eqTypeId: 'eqTypeId',
 		eqTypeName: 'eqTypeName',
 		errNode: false,
 		eqIp: '192.168.1.2',
 		x: 3,
-		y: 0.5,
+		y: 2,
 	},
-	{
-		id: '4',
-		eqName: '路由器4',
-		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: ['eqPortTypeNum'],
-		eqTypeCode: 'router-node',
-		eqTypeId: 'eqTypeId',
-		eqTypeName: 'eqTypeName',
-		errNode: false,
-		eqIp: '192.168.1.2',
-		x: 4,
-		y: 0.5,
-	},
+
 	// {
 	// 	id: '3',
 	// 	eqName: '交换机1',
 	// 	eqOrgId: 'eqOrgId',
-	// 	eqPortTypeNum: ['eqPortTypeNum'],
+	// 	eqPortTypeNum: ['eqPortTypeNum/0/0/2'],
 	// 	eqTypeCode: 'switch-node',
 	// 	eqTypeId: 'eqTypeId',
 	// 	eqTypeName: 'eqTypeName',
@@ -161,77 +233,100 @@ const nodeData = [
 const dddid = [
 	{
 		source: '0',
-		target: '1',
-		index: 0,
-		err: true,
-	},
-	{
-		source: '0',
 		target: '2',
 		index: 0,
-		err: true,
+		data: {
+			port: 'eqPortTypeNum/0/0/2',
+		},
 	},
 	{
-		source: '0',
+		source: '1',
 		target: '3',
 		index: 0,
-		err: true,
-	},
-	{
-		source: '0',
-		target: '4',
-		index: 0,
-		err: true,
+		data: {
+			port: 'eqPortTypeNum/0/1/2',
+		},
 	},
 	{
 		source: '2',
 		target: '4',
 		index: 0,
-		err: true,
+		data: {
+			port: 'eqPortTypeNum/0/2/2',
+		},
+	},
+	{
+		source: '2',
+		target: '5',
+		index: 0,
+		data: {
+			port: 'eqPortTypeNum/0/3/2',
+		},
 	},
 	{
 		source: '3',
 		target: '4',
 		index: 0,
-		err: true,
+		data: {
+			port: 'eqPortTypeNum/0/3/1',
+		},
 	},
-
-	// {
-	// 	source: '0',
-	// 	target: '2',
-	// 	index: 0,
-	// 	err: true,
-	// },
-	// {
-	// 	source: '0',
-	// 	target: '2',
-	// 	index: 1,
-	// },
-	// {
-	// 	source: '0',
-	// 	target: '2',
-	// 	index: 2,
-	// },
-	// {
-	// 	source: '0',
-	// 	target: '2',
-	// 	index: 3,
-	// },
-	// {
-	// 	source: '0',
-	// 	target: '2',
-	// 	index: 4,
-	// },
-	// {
-	// 	source: '0',
-	// 	target: '2',
-	// 	index: 5,
-	// },
-	// {
-	// 	source: '0',
-	// 	target: '2',
-	// 	index: 6,
-	// },
+	{
+		source: '3',
+		target: '5',
+		index: 0,
+		data: {
+			port: 'eqPortTypeNum/0/3/2',
+		},
+	},
+	{
+		source: '3',
+		target: '5',
+		index: 0,
+		data: {
+			port: 'eqPortTypeNum/0/3/0',
+		},
+	},
+	{
+		source: '4',
+		target: '6',
+		index: 0,
+		data: {
+			port: 'eqPortTypeNum/0/4/2',
+		},
+	},
+	{
+		source: '4',
+		target: '6',
+		index: 1,
+		data: {
+			port: 'eqPortTypeNum/0/4/3',
+		},
+	},
+	{
+		source: '5',
+		target: '7',
+		index: 0,
+		data: {
+			port: 'eqPortTypeNum/0/5/2',
+		},
+	},
+	{
+		source: '5',
+		target: '7',
+		index: 1,
+		data: {
+			port: 'eqPortTypeNum/0/5/3',
+		},
+	},
+	{
+		source: '4',
+		target: '5',
+		index: 0,
+		data: {
+			port: 'eqPortTypeNum/0/4/2',
+		},
+	},
 ]
 export default function Test(props) {
 	const [form] = Form.useForm()
@@ -243,7 +338,9 @@ export default function Test(props) {
 	const [showFormEdge, setShowFormEdge] = useState(false)
 	const [showFormNode, setShowFormNode] = useState(false)
 	const [nodeList, setNodeList] = useState([])
+	const [nodeListPort, setNodeListPort] = useState([])
 	const [nodeListOther, setNodeListOther] = useState([])
+	const [nodeListOtherPort, setNodeListOtherPort] = useState([])
 	const [edgeList, setEdgeList] = useState([])
 	const [edit, setEdit] = useState(false)
 	const [editNodeCell, setEditNodeCell] = useState()
@@ -352,28 +449,45 @@ export default function Test(props) {
 				id: node.data.id,
 			})
 		})
-		graph.on('edge:click', ({ cell }) => {})
+		graph.on('edge:click', ({ cell, edge }) => {
+			// console.log('cell', cell)
+			// console.log('edge', cell.data)
+			const datalist = graph.getNodes()
+			const source = datalist.find((item) => item.id === edge.source.cell)
+			const target = datalist.find((item) => item.id === edge.target.cell)
+			console.log('edge', edge)
+			console.log(source.data, target.data)
+			Modal.info({
+				title: '链接信息',
+				content: (
+					<>
+						<p>设备1:{source.data.eqName} </p>
+						<p>设备2:{target.data.eqName} </p>
+						<p>
+							使用{source.data.eqName}端口:{edge.data.port}
+						</p>
+					</>
+				),
+			})
+		})
 
 		dddid.forEach((i) => {
 			graph.addEdge({
 				source: i.source,
 				target: i.target,
-				// connector: {
-				// 	name: 'multi-smooth',
-				// 	args: {
-				// 		index: i.index,
-				// 	},
-				// },
-				// labels: [i.source],
+				connector: {
+					name: 'multi-smooth',
+					args: {
+						index: i.index,
+					},
+				},
 				attrs: {
 					line: {
 						stroke: i.err ? 'red' : '#7c68fc', // 指定 path 元素的填充色
 						targetMarker: null,
 					},
 				},
-				router: {
-					name: 'metro',
-				  },
+				data: i.data,
 			})
 		})
 		setGraph(graph)
@@ -432,17 +546,17 @@ export default function Test(props) {
 		const comEdge = edgesMap.filter(
 			(item) => item.source === values.ip1 && item.target === values.ip2,
 		)
-
 		graph.addEdge({
 			source: values.ip1,
 			target: values.ip2,
 			connector: {
 				name: 'multi-smooth',
+				args: {
+					index: comEdge.length,
+				},
 			},
-			labels: [values.ip1],
 			attrs: {
 				line: {
-					stroke: '#7c68fc', // 指定 path 元素的填充色
 					targetMarker: null,
 				},
 			},
@@ -490,10 +604,20 @@ export default function Test(props) {
 		setShowFormEdge(true)
 	}
 	const onChangeNodes = (value) => {
-		console.log(value)
+		const currentNode = graph.getNodes().find((item) => item.id === value)
+		const eqPortTypeNum = currentNode.data.eqPortTypeNum
+		setNodeListPort(eqPortTypeNum.map((item) => ({ value: item, label: item })))
+
 		const nodesMap = nodeList.filter((item) => item.value !== value)
 		formNodeEdge.setFieldsValue({ ip2: undefined })
 		setNodeListOther(nodesMap)
+	}
+	const onChangeNodesOtherPort = (value) => {
+		const currentNode = graph.getNodes().find((item) => item.id === value)
+		const eqPortTypeNum = currentNode.data.eqPortTypeNum
+		setNodeListOtherPort(
+			eqPortTypeNum.map((item) => ({ value: item, label: item })),
+		)
 	}
 	const formItemLayout = {
 		labelCol: { span: 4 },
@@ -577,7 +701,7 @@ export default function Test(props) {
 					preserve={false}>
 					<Form.Item
 						name='ip1'
-						label='ip1'
+						label='节点1'
 						hasFeedback
 						rules={[
 							{ required: true, message: 'Please select your country!' },
@@ -588,14 +712,37 @@ export default function Test(props) {
 							placeholder='Please select a country'></Select>
 					</Form.Item>
 					<Form.Item
+						name='port1'
+						label='节点1端口'
+						hasFeedback
+						rules={[
+							{ required: true, message: 'Please select your country!' },
+						]}>
+						<Select
+							options={nodeListPort}
+							placeholder='Please select a country'></Select>
+					</Form.Item>
+					<Form.Item
 						name='ip2'
-						label='ip2'
+						label='节点2'
 						hasFeedback
 						rules={[
 							{ required: true, message: 'Please select your country!' },
 						]}>
 						<Select
 							options={nodeListOther}
+							onChange={onChangeNodesOtherPort}
+							placeholder='Please select a country'></Select>
+					</Form.Item>
+					<Form.Item
+						name='port2'
+						label='节点2端口'
+						hasFeedback
+						rules={[
+							{ required: true, message: 'Please select your country!' },
+						]}>
+						<Select
+							options={nodeListOtherPort}
 							placeholder='Please select a country'></Select>
 					</Form.Item>
 					<Form.Item>
@@ -606,7 +753,7 @@ export default function Test(props) {
 				</Form>
 			</Modal>
 			<Modal
-				title='替换节点设备'
+				title='节点设备'
 				visible={showFormNode}
 				onCancel={showModalCanCel}
 				destroyOnClose
