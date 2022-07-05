@@ -6,6 +6,10 @@ import {
 import { Breadcrumb, Layout, Menu } from 'antd'
 import React from 'react'
 import Test from './X6box'
+import Dnddom from './Dndbox'
+import DnddomFn from './DndboxFn'
+import Demo2 from './demo2'
+import TreeDemo from './TreeDemo'
 const { Header, Content, Sider } = Layout
 const items1 = ['1', '2', '3'].map((key) => ({
 	key,
@@ -72,8 +76,11 @@ const App = () => (
 						margin: 0,
 						minHeight: 400,
 					}}>
-					
-          <Test></Test>
+					{/* <Test></Test> */}
+					{/* <Dnddom></Dnddom> */}
+					{/* <DnddomFn /> */}
+					{/* <Demo2 /> */}
+					<TreeDemo />
 				</Content>
 			</Layout>
 		</Layout>

@@ -1,14 +1,18 @@
 // 这是用来测试react渲染节点,并且导入再导入的效果
 import React, { useEffect, useRef, useState } from 'react'
 import { Graph, DataUri, Line, Path, Curve } from '@antv/x6'
+import { Dom, Addon, Shape } from '@antv/x6'
 import { usePortal, ReactShape } from '@antv/x6-react-shape'
 import './test.css'
+import './demo2.css'
 import { message, Form, Input, Select, Modal, InputNumber, Button } from 'antd'
 import SwitchNode from './SwitchNode'
 import RouterNode from './RouterNode'
 import { values } from 'lodash'
+import nodeData from './data2'
 const UNIQ_GRAPH_ID = 'UNIQ_GRAPH_ID'
-
+const { Dnd, Stencil } = Addon
+const { Rect, Circle } = Shape
 Graph.registerNode(
 	'router-node',
 	{
@@ -19,10 +23,6 @@ Graph.registerNode(
 		attrs: {
 			showLabel: false,
 		},
-
-		// attrHooks: {
-		// 	showLabel: false,
-		// },
 	},
 	true,
 )
@@ -64,270 +64,6 @@ Graph.registerNode(
 	true,
 )
 
-const nodeData = [
-	{
-		id: '0',
-		eqName: '路由器0',
-		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: [
-			'eqPortTypeNum/0/0/0',
-			'eqPortTypeNum/0/0/1',
-			'eqPortTypeNum/0/0/2',
-		],
-		eqTypeCode: 'router-node',
-		eqTypeId: 'eqTypeId',
-		eqTypeName: 'eqTypeName',
-		errNode: false,
-		eqIp: '192.168.1.0',
-		x: 1,
-		y: 0,
-	},
-	{
-		id: '1',
-		eqName: '路由器1',
-		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: [
-			'eqPortTypeNum/0/1/0',
-			'eqPortTypeNum/0/1/1',
-			'eqPortTypeNum/0/1/2',
-		],
-		eqTypeCode: 'router-node',
-		eqTypeId: 'eqTypeId',
-		eqTypeName: 'eqTypeName',
-		errNode: false,
-		eqIp: '192.168.1.1',
-		x: 2,
-		y: 0,
-	},
-	{
-		id: '2',
-		eqName: '路由器2',
-		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: [
-			'eqPortTypeNum/0/2/0',
-			'eqPortTypeNum/0/2/1',
-			'eqPortTypeNum/0/2/2',
-		],
-		eqTypeCode: 'router-node',
-		eqTypeId: 'eqTypeId',
-		eqTypeName: 'eqTypeName',
-		errNode: false,
-		eqIp: '192.168.1.2',
-		x: 1,
-		y: 1,
-	},
-	{
-		id: '3',
-		eqName: '路由器3',
-		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: [
-			'eqPortTypeNum/3/1/0',
-			'eqPortTypeNum/3/1/1',
-			'eqPortTypeNum/3/1/2',
-		],
-		eqTypeCode: 'router-node',
-		eqTypeId: 'eqTypeId',
-		eqTypeName: 'eqTypeName',
-		errNode: false,
-		eqIp: '192.168.1.2',
-		x: 2,
-		y: 1,
-	},
-	{
-		id: '4',
-		eqName: '交换机1',
-		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: [
-			'eqPortTypeNum/4/1/0',
-			'eqPortTypeNum/4/1/1',
-			'eqPortTypeNum/4/1/2',
-		],
-		eqTypeCode: 'router-node',
-		eqTypeId: 'eqTypeId',
-		eqTypeName: 'eqTypeName',
-		errNode: false,
-		eqIp: '192.168.1.2',
-		x: 1,
-		y: 2,
-	},
-	{
-		id: '5',
-		eqName: '交换机2',
-		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: [
-			'eqPortTypeNum/5/1/0',
-			'eqPortTypeNum/5/1/1',
-			'eqPortTypeNum/5/1/2',
-		],
-		eqTypeCode: 'router-node',
-		eqTypeId: 'eqTypeId',
-		eqTypeName: 'eqTypeName',
-		errNode: false,
-		eqIp: '192.168.1.2',
-		x: 2,
-		y: 2,
-	},
-	{
-		id: '6',
-		eqName: '防火墙1',
-		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: [
-			'eqPortTypeNum/6/1/0',
-			'eqPortTypeNum/6/1/1',
-			'eqPortTypeNum/6/1/2',
-		],
-		eqTypeCode: 'router-node',
-		eqTypeId: 'eqTypeId',
-		eqTypeName: 'eqTypeName',
-		errNode: false,
-		eqIp: '192.168.1.2',
-		x: 0,
-		y: 2,
-	},
-	{
-		id: '7',
-		eqName: '防火墙2',
-		eqOrgId: 'eqOrgId',
-		eqPortTypeNum: [
-			'eqPortTypeNum/0/7/0',
-			'eqPortTypeNum/0/7/1',
-			'eqPortTypeNum/0/7/2',
-		],
-		eqTypeCode: 'router-node',
-		eqTypeId: 'eqTypeId',
-		eqTypeName: 'eqTypeName',
-		errNode: false,
-		eqIp: '192.168.1.2',
-		x: 3,
-		y: 2,
-	},
-
-	// {
-	// 	id: '3',
-	// 	eqName: '交换机1',
-	// 	eqOrgId: 'eqOrgId',
-	// 	eqPortTypeNum: ['eqPortTypeNum/0/0/2'],
-	// 	eqTypeCode: 'switch-node',
-	// 	eqTypeId: 'eqTypeId',
-	// 	eqTypeName: 'eqTypeName',
-	// 	errNode: false,
-	// 	eqIp: '192.168.1.3',
-	// 	x: 1.5,
-	// 	y: 2,
-	// },
-	// {
-	// 	id: '4',
-	// 	eqName: '交换机2',
-	// 	eqOrgId: 'eqOrgId',
-	// 	eqPortTypeNum: ['eqPortTypeNum'],
-	// 	eqTypeCode: 'switch-node',
-	// 	eqTypeId: 'eqTypeId',
-	// 	eqTypeName: 'eqTypeName',
-	// 	errNode: false,
-	// 	eqIp: '192.168.1.4',
-	// 	x: 1.5,
-	// 	y: 3.5,
-	// },
-]
-
-const dddid = [
-	{
-		source: '0',
-		target: '2',
-		index: 0,
-		data: {
-			port: 'eqPortTypeNum/0/0/2',
-		},
-	},
-	{
-		source: '1',
-		target: '3',
-		index: 0,
-		data: {
-			port: 'eqPortTypeNum/0/1/2',
-		},
-	},
-	{
-		source: '2',
-		target: '4',
-		index: 0,
-		data: {
-			port: 'eqPortTypeNum/0/2/2',
-		},
-	},
-	{
-		source: '2',
-		target: '5',
-		index: 0,
-		data: {
-			port: 'eqPortTypeNum/0/3/2',
-		},
-	},
-	{
-		source: '3',
-		target: '4',
-		index: 0,
-		data: {
-			port: 'eqPortTypeNum/0/3/1',
-		},
-	},
-	{
-		source: '3',
-		target: '5',
-		index: 0,
-		data: {
-			port: 'eqPortTypeNum/0/3/2',
-		},
-	},
-	{
-		source: '3',
-		target: '5',
-		index: 0,
-		data: {
-			port: 'eqPortTypeNum/0/3/0',
-		},
-	},
-	{
-		source: '4',
-		target: '6',
-		index: 0,
-		data: {
-			port: 'eqPortTypeNum/0/4/2',
-		},
-	},
-	{
-		source: '4',
-		target: '6',
-		index: 1,
-		data: {
-			port: 'eqPortTypeNum/0/4/3',
-		},
-	},
-	{
-		source: '5',
-		target: '7',
-		index: 0,
-		data: {
-			port: 'eqPortTypeNum/0/5/2',
-		},
-	},
-	{
-		source: '5',
-		target: '7',
-		index: 1,
-		data: {
-			port: 'eqPortTypeNum/0/5/3',
-		},
-	},
-	{
-		source: '4',
-		target: '5',
-		index: 0,
-		data: {
-			port: 'eqPortTypeNum/0/4/2',
-		},
-	},
-]
 export default function Test(props) {
 	const [form] = Form.useForm()
 	const [formNodeEdge] = Form.useForm()
@@ -341,11 +77,11 @@ export default function Test(props) {
 	const [nodeListPort, setNodeListPort] = useState([])
 	const [nodeListOther, setNodeListOther] = useState([])
 	const [nodeListOtherPort, setNodeListOtherPort] = useState([])
-	const [edgeList, setEdgeList] = useState([])
-	const [edit, setEdit] = useState(false)
 	const [editNodeCell, setEditNodeCell] = useState()
+	const [dndTarget, setDndTarget] = useState()
 
 	const container = useRef()
+	const refStencil = useRef()
 	useEffect(() => {
 		const graph = new Graph({
 			container: container.current,
@@ -450,8 +186,6 @@ export default function Test(props) {
 			})
 		})
 		graph.on('edge:click', ({ cell, edge }) => {
-			// console.log('cell', cell)
-			// console.log('edge', cell.data)
 			const datalist = graph.getNodes()
 			const source = datalist.find((item) => item.id === edge.source.cell)
 			const target = datalist.find((item) => item.id === edge.target.cell)
@@ -463,34 +197,106 @@ export default function Test(props) {
 					<>
 						<p>设备1:{source.data.eqName} </p>
 						<p>设备2:{target.data.eqName} </p>
-						<p>
+						{/* <p>
 							使用{source.data.eqName}端口:{edge.data.port}
-						</p>
+						</p> */}
 					</>
 				),
 			})
 		})
 
-		dddid.forEach((i) => {
-			graph.addEdge({
-				source: i.source,
-				target: i.target,
-				connector: {
-					name: 'multi-smooth',
-					args: {
-						index: i.index,
-					},
-				},
-				attrs: {
-					line: {
-						stroke: i.err ? 'red' : '#7c68fc', // 指定 path 元素的填充色
-						targetMarker: null,
-					},
-				},
-				data: i.data,
-			})
+		// dddid.forEach((i) => {
+		// 	graph.addEdge({
+		// 		source: i.source,
+		// 		target: i.target,
+		// 		connector: {
+		// 			name: 'multi-smooth',
+		// 			args: {
+		// 				index: i.index,
+		// 			},
+		// 		},
+		// 		attrs: {
+		// 			line: {
+		// 				stroke: i.err ? 'red' : '#7c68fc', // 指定 path 元素的填充色
+		// 				targetMarker: null,
+		// 			},
+		// 		},
+		// 		data: i.data,
+		// 	})
+		// })
+		const dnd = new Dnd({
+			target: graph,
+			scaled: false,
+			animation: true,
+			validateNode(droppingNode, options) {
+				console.log(droppingNode)
+				return droppingNode.shape === 'html'
+					? new Promise((resolve) => {
+							const { draggingNode, draggingGraph } = options
+							const view = draggingGraph.findView(draggingNode)
+							const contentElem = view.findOne('foreignObject > body > div')
+							Dom.addClass(contentElem, 'validating')
+							setTimeout(() => {
+								Dom.removeClass(contentElem, 'validating')
+								resolve(true)
+							}, 3000)
+					  })
+					: true
+			},
 		})
+
+		const stencil = new Stencil({
+			title: '搜索',
+			target: graph,
+			search(cell, keyword, groupName, stencil) {
+				return cell.data.eqName?.indexOf(keyword) !== -1
+			},
+			placeholder: '设备名字',
+			notFoundText: '未找到',
+			// collapsable: true,
+			stencilGraphWidth: 200,
+			stencilGraphHeight: 180,
+			groups: [
+				{
+					name: 'group1',
+					title: '路由器',
+				},
+				{
+					name: 'group2',
+					title: '防火墙',
+				},
+				{
+					name: 'group2',
+					title: '交换机',
+				},
+			],
+			layoutOptions: {
+				columns: 1,
+			},
+		})
+
+		refStencil.current.appendChild(stencil.container)
+		const dndList = nodeData.map((item, index) =>
+			graph.createNode({
+				width: 50,
+				height: 50,
+				shape: 'router-node',
+				data: {
+					...item,
+					eqName: `${item.eqName}${index}`,
+					id: new Date().getTime() + '' + index,
+				},
+				id: new Date().getTime() + '' + index,
+			}),
+		)
+		console.log(dndList)
+		stencil.load(dndList, 'group1')
+
+		stencil.load([], 'group2')
+		stencil.load([], 'group3')
+		stencil.resizeGroup('group1', { width: 100, height: dndList.length * 100 })
 		setGraph(graph)
+		setDndTarget(dnd)
 		setGraphState(graph)
 	}, [setGraph])
 
@@ -541,7 +347,6 @@ export default function Test(props) {
 		const edgesMap = edges.map((item) => ({
 			source: item.source.cell,
 			target: item.target.cell,
-			shape: item.shape,
 		}))
 		const comEdge = edgesMap.filter(
 			(item) => item.source === values.ip1 && item.target === values.ip2,
@@ -559,6 +364,10 @@ export default function Test(props) {
 				line: {
 					targetMarker: null,
 				},
+			},
+			data: {
+				// source: item.source.cell,
+				// target: item.target.cell,
 			},
 		})
 		showModalCanCel()
@@ -597,10 +406,11 @@ export default function Test(props) {
 	const addDataEdge = () => {
 		const nodes = graph.getNodes()
 		const nodesMap = nodes.map((item) => ({
-			value: item.data.id,
+			value: item.id,
 			label: item.data.eqName,
 		}))
 		setNodeList(nodesMap)
+		console.log('nodesMap', nodesMap)
 		setShowFormEdge(true)
 	}
 	const onChangeNodes = (value) => {
@@ -623,20 +433,53 @@ export default function Test(props) {
 		labelCol: { span: 4 },
 		wrapperCol: { span: 14 },
 	}
+	const startDrag = (e) => {
+		const target = e.currentTarget
+		const type = target.getAttribute('data-type')
+		const node = graph.createNode({
+			width: 100,
+			height: 100,
+			shape: 'html',
+			html: () => {
+				const wrap = document.createElement('div')
+				wrap.style.width = '100%'
+				wrap.style.height = '100%'
+				wrap.style.display = 'flex'
+				wrap.style.alignItems = 'center'
+				wrap.style.justifyContent = 'center'
+				wrap.style.border = '2px solid rgb(49, 208, 198)'
+				wrap.style.background = '#fff'
+				wrap.innerText = type
+				return wrap
+			},
+		})
 
+		dndTarget.start(node, e.nativeEvent)
+	}
 	return (
-		<>
+		<div className='dnd-box'>
+			<div className='app-stencil' ref={refStencil}></div>
+
 			<div className='content' ref={container} id='container'>
 				<Portal />
 			</div>
-			<div>
-				<button onClick={handleDownLoad}>导出数据</button>
-				<button onClick={handlePNG}>导出PNG</button>
-				{/* <button onClick={handleShowLabel}>展示其他数据</button> */}
-				<button onClick={addNode}>添加节点</button>
-				<button onClick={addDataEdge}>添加连线</button>
+			<div className='dnd-wrap'>
+				{/* <div data-type='router' className='dnd-rect' onMouseDown={startDrag}>
+					router
+				</div>
+				<div data-type='switch' className='dnd-rect' onMouseDown={startDrag}>
+					switch
+				</div>
+				<div data-type='fail' className='dnd-rect' onMouseDown={startDrag}>
+					fail
+				</div> */}
+				<div>
+					<button onClick={handleDownLoad}>导出数据</button>
+					<button onClick={handlePNG}>导出PNG</button>
+					<button onClick={addNode}>添加节点</button>
+					<button onClick={addDataEdge}>添加连线</button>
+				</div>
 			</div>
-
 			<Modal
 				title='添加新设备节点'
 				visible={showForm}
@@ -791,6 +634,6 @@ export default function Test(props) {
 					</Form.Item>
 				</Form>
 			</Modal>
-		</>
+		</div>
 	)
 }
